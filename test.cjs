@@ -99,3 +99,10 @@ console.log('Descalificări OK: vizibile în rezultate, excluse din recorduri ș
 run('state='+beforeHistorical);run('selected='+JSON.stringify(beforeSelected));
 let sharedText='';context.navigator={clipboard:{async writeText(text){sharedText=text}}};
 (async()=>{await run('shareResult(state.results[0].id)');assert.ok(sharedText.includes('00:38.42'));assert.ok(sharedText.includes('https://youtu.be/aqz-KE-bpKQ?t=37'));assert.ok(!sharedText.includes('localhost'));let nativeShare;context.navigator.share=async payload=>{nativeShare=payload};await run('shareResult(state.results[0].id)');assert.ok(nativeShare.text.includes('Concurs test'));context.navigator.share=async()=>{const error=new Error('cancel');error.name='AbortError';throw error};await run('shareResult(state.results[0].id)');assert.equal(run('JSON.stringify(state)'),beforeDetails);console.log('Detalii + share OK: fără formular, video la cerere, timestamp, share nativ și copiere.');})().catch(error=>{console.error(error);process.exitCode=1});
+assert.equal(run('chartTime(9000)'), '1 min: 30 sec');
+assert.equal(run('chartTime(6200)'), '1 min: 02 sec');
+assert.equal(run('chartTime(6000)'), '1 min: 00 sec');
+assert.equal(run('chartTime(5999,2)'), '59.99 sec');
+assert.equal(run('chartTime(6207,2)'), '1 min: 02.07 sec');
+assert.equal(run('chartTime(180000,2)'), '30 min: 00 sec');
+console.log('Chart labels OK: minutes, padded seconds, exact-minute boundaries and hundredths.');

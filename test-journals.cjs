@@ -7,3 +7,13 @@ const id2=crypto.randomUUID();let b=request({action:'create',id:id2,recovery:cry
 const base={name:'A',results:[{id:'one',time:10}],meets:[]},left={...base,results:[...base.results,{id:'two',time:20}]},right={...base,name:'B'};assert.deepEqual(S.merge(base,left,right),{...left,name:'B'});assert.throws(()=>S.merge(base,{...base,name:'X'},{...base,name:'Y'}));assert.throws(()=>S.merge(base,{...base,results:[]},{...base,results:[{id:'one',time:15}]}));assert.equal(request({action:'migrate',id:crypto.randomUUID(),recovery:crypto.randomUUID(),legacyToken:'wrong',data}).ok,false);
 console.log('UUID API OK: isolated JSON journals, idempotent registration, authentication, recovery, optimistic concurrency, safe merge and migration authorization.');
 module.exports={request};
+// Friendly names, duplicate-name suffixes, stable links and UUID-bound routes.
+const routeId=crypto.randomUUID(),routeRecovery=crypto.randomUUID(),routeData={...M.empty(),name:'Ana Popescu'};
+const routeOne=request({action:'create',id:routeId,recovery:routeRecovery,data:routeData});assert.equal(routeOne.slug,'ana_popescu');
+const routeTwo=request({action:'create',id:crypto.randomUUID(),recovery:crypto.randomUUID(),data:routeData});assert.equal(routeTwo.slug,'ana_popescu_2');
+assert.equal(request({action:'read',id:routeId,slug:'alt_copil'}).ok,false);assert.equal(request({action:'read',id:routeId,slug:'ana_popescu'}).ok,true);
+assert.ok(request({action:'write',id:routeId,revision:1,data:{...routeData,name:'Ana Maria Popescu'}}).ok);assert.equal(request({action:'read',id:routeId}).slug,'ana_popescu','Profile rename preserves the established URL');
+// A pre-route journal gains a friendly canonical URL and preserves its legacy alias.
+const legacyFileId=props.get('J_'+crypto.createHash('sha256').update(routeId).digest('hex')),legacy=JSON.parse(files.get(legacyFileId));legacy.slug='inotator_legacy';delete legacy.routeVersion;files.set(legacyFileId,JSON.stringify(legacy));
+const upgraded=request({action:'read',id:routeId,slug:'inotator_legacy'});assert.equal(upgraded.slug,'ana_maria_popescu');assert.ok(upgraded.aliases.includes('inotator_legacy'));assert.equal(request({action:'read',id:routeId,slug:upgraded.slug}).ok,true);assert.equal(request({action:'read',id:routeId,slug:'another_child'}).ok,false);
+console.log('Routes OK: friendly names, duplicates, legacy aliases and UUID/URL isolation.');
