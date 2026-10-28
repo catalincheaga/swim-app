@@ -1,44 +1,26 @@
 # LANE — jurnal de înot
 
-Aplicație statică pentru telefon și desktop. Interfață în română, inspirată de iOS / Liquid Glass, cu culorile echipelor. Fără build, instalare sau servicii plătite.
+Aplicație pentru telefon și desktop, cu profil separat pentru fiecare înotător, concursuri, rezultate, grafice, culori de club și înregistrări YouTube. Interfața păstrează designul iOS existent.
 
-## Pornire locală
+## Versiunea cu UUID
 
-Din acest dosar: `python3 -m http.server 8765 --bind 127.0.0.1`, apoi http://127.0.0.1:8765. Previzualizarea în ramă de telefon este la `/mobile-preview.html`.
+Această versiune este în pregătire pentru activare. Frontend-ul rămâne pe GitHub Pages; stocarea centrală este în fișiere JSON private în Drive, prin API-ul Apps Script. Nu există configurare Google Sheets în interfață. Instalarea backend-ului și verificarea migrării sunt descrise în [backend/README.md](backend/README.md).
 
-Datele locale depind de browser, adresă și port. Folosește JSON pentru backup și migrare între dispozitive sau adrese. Jurnalele noi sunt goale. Pentru alt dispozitiv, din Setări pe dispozitivul conectat apasă „Copiază linkul pentru telefon”, apoi deschide linkul privat pe noul dispozitiv. Linkul conține accesul la jurnal în fragment, eliminat imediat din adresă; nu îl publica. La conectare se descarcă jurnalul din Google Sheet. Sincronizarea ulterioară rămâne manuală.
+La înregistrare primești un UUID pentru acces și un cod separat pentru recuperare. Salvează codurile: UUID-ul permite citirea și modificarea jurnalului. Pe un dispozitiv nou introduci UUID-ul o singură dată. Recuperarea cere numele și codul de recuperare, emite un UUID nou și îl revocă pe cel anterior.
 
-## Ce include
+Datele sunt încărcate de la serviciul central și salvate automat. Dispozitivele active verifică actualizări la 30 de secunde. Fără internet rămâne o copie locală; starea din antet arată dacă modificările sunt confirmate online. Schimbările independente se combină; un conflict de editare cere o alegere explicită și păstrează backup local.
 
-- Concursuri salvate independent de rezultate. Alegi concursul la următoarea introducere de timp; numele, localitatea și bazinul se completează automat.
-- Curse cu dată, procedeu, distanță, bazin, timp, clasare, echipă, notițe și link YouTube opțional.
-- Link separat „Vezi cursa pe YouTube” în rezultate, pe pagina de concurs și la ultimele curse, plus acces din detaliile cursei. Linkul poate include un moment de început.
-- Recorduri și grafice pe distanță / procedeu / bazin, cu echipa reprezentată la fiecare cursă. Recordurile acoperă întregul parcurs sportiv.
-- Profil cu nume, data nașterii, sex și legitimație opționale. Cluburi și culori configurabile, perioade și echipă explicită pe cursă.
-- Salvare locală, export CSV, backup/import JSON și sincronizare manuală cu Google Sheets.
+Setările conțin profilul înotătorului, cluburile, perioadele, culorile și butonul Înotător nou. UUID-ul poate fi afișat din antet. Codurile nu apar în URL-ul jurnalului. Slugul adresei rămâne stabil după schimbarea numelui.
 
-## Google Sheets
+## Dezvoltare
 
-**Urmează `SETUP.md`.** Cele trei foi editabile sunt `configs`, `concursuri` și `date`. Sunt sursa aplicației, inclusiv pentru modificări introduse direct în Sheets. Funcția setupLane reține ID-ul documentului în Script Properties, separat de sursa publică. Cheia privată se configurează separat în Script Properties și în browser; nu apare în sursă.
+`python3 -m http.server 8765 --bind 127.0.0.1` din acest director. Deschide `http://127.0.0.1:8765/index.html`. API-ul trebuie activat de proprietar înainte ca înregistrarea și migrarea să funcționeze real. Nu publica exporturi, date personale, credențiale, capturi sau PUBLISHING.md.
 
-`GoogleAppsScript.gs` este fișierul complet de copiat în editorul Google. Se generează prin concatenarea `data-model.js` și `sheets-api.gs`; nu copia toate cele trei fișiere separat în același proiect Apps Script. Pentru modificări la cod: `cat data-model.js sheets-api.gs > GoogleAppsScript.gs`.
+## Verificări
 
-Backupurile locale vechi se migrează automat. Jurnalul vechi `_LANE`, dacă există în Sheets, poate fi migrat prin `setupLane()`; foile vechi sunt păstrate.
+- `node test.cjs` — model, formulare, echipe, rezultate, video și distribuire.
+- `node test-data.cjs` — compatibilitatea datelor și backend-ul vechi, păstrat pentru revenire.
+- `node test-journals.cjs` — API JSON: autorizare, izolare, recuperare și conflicte.
+- `node test-cloud.cjs` — client: înregistrare, al doilea dispozitiv, salvare și combinarea adăugărilor simultane.
 
-## GitHub Pages
-
-În rădăcina repository-ului publică **index.html, style.css, ios.css, app.js, data-model.js și .nojekyll**. Nu publica exporturi, cheia sau rezultate reale. Pentru a păstra și ghidul de configurare accesibil din Setări, publică și **setup.html, setup.js, GoogleAppsScript.gs și SETUP.md**; acestea nu conțin cheia sau rezultate. În Settings → Pages alege branch-ul și rădăcina `/`. Importă backupul JSON și configurează conexiunea în noua adresă; stocarea de la localhost nu se transferă singură.
-
-Pe telefon poți adăuga pagina pe ecranul principal. Este o aplicație web cu salvare locală; nu include cache offline sau sincronizare în fundal. Fonturile sunt cele de sistem. Tratamentele vizuale respectă preferințele de mișcare redusă, contrast și transparență când sunt expuse de browser.
-
-## Validare
-
-`node --check app.js`, `node test.cjs`, `node test-data.cjs`. Sunt verificate timpii, cluburile, formularele, reutilizarea concursurilor, linkurile video, compatibilitatea datelor, conversia foilor, conflictele după editări manuale, migrarea și restaurarea după o eroare simulată. Google Sheets real trebuie verificat după autorizarea și publicarea Apps Script.
-
-Paletele sunt inspirate de https://inot-sport.ro/ și https://euroswimmingclub.ro/. Tema este o interpretare web a principiilor Apple https://developer.apple.com/documentation/technologyoverviews/liquid-glass.
-
-## Vizualizare și distribuire
-
-Atingerea unui rezultat deschide o fișă doar pentru citire: timp, clasare, concurs, dată, localitate, bazin, echipă și notițe. Înregistrarea apare sub detalii și se încarcă în player YouTube numai după apăsarea butonului de redare; linkul către YouTube rămâne disponibil. Editarea se deschide exclusiv prin butonul explicit „Editează”.
-
-„Distribuie rezultatul” deschide meniul nativ de distribuire unde este disponibil, iar în celelalte browsere copiază textul rezultatului și linkul video. Nu publică jurnalul și nu trimite o adresă localhost sau un link către datele private din Sheets. Data nașterii, legitimația și notițele nu sunt incluse în textul distribuit.
+Testele API folosesc stocare simulată; verificarea reală trebuie făcută după autorizarea Drive și publicarea backend-ului. Serviciul este destinat unui grup mic de familii și rămâne supus [cotelor Apps Script](https://developers.google.com/apps-script/guides/services/quotas).
