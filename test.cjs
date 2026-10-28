@@ -152,6 +152,29 @@ console.log('Comparații OK: concurs anterior după dată, bazin separat, DQ, ac
  assert.ok(!run('personalRecords()').includes('<span>↗</span>'));
  run('state='+saved);run('selected='+JSON.stringify(choice));run('recordPool='+pool);
 }
+
+// Latest meet counts genuine improvements against prior PBs in the same pool.
+{
+ const saved=run('JSON.stringify(state)');
+ run(`state=LaneModel.normalize({...LaneModel.empty(),results:[
+ {id:'prior',meet:'Prior',date:'2025-01-01',distance:50,stroke:'Liber',pool:25,time:3500},
+ {id:'previous',meet:'Previous',date:'2025-02-01',distance:50,stroke:'Liber',pool:25,time:3600},
+ {id:'wrong-pool',meet:'Long',date:'2025-02-01',distance:100,stroke:'Liber',pool:50,time:8000},
+ {id:'new',meet:'Latest',date:'2026-10-24',distance:100,stroke:'Liber',pool:25,time:7400},
+ {id:'improved',meet:'Latest',date:'2026-10-24',distance:50,stroke:'Liber',pool:25,time:3400},
+ {id:'equal',meet:'Latest',date:'2026-10-24',distance:50,stroke:'Spate',pool:25,time:4500},
+ {id:'prior-spate',meet:'Prior',date:'2025-01-01',distance:50,stroke:'Spate',pool:25,time:4500}
+ ]})`);
+ assert.equal(run('latestMeetSummary().races.length'),3);
+ assert.equal(run('latestMeetSummary().improved'),1);
+ assert.ok(!run('overview()').includes('câștigate de la prima cursă'));
+ // Faster than the last race but slower than the old PB is not an improvement.
+ run("state.results.find(r=>r.id==='improved').time=3550");
+ assert.equal(run('latestMeetSummary().improved'),0);
+ run("state.results.find(r=>r.id==='improved').time=3400;state.results.find(r=>r.id==='improved').place='Descalificat'");
+ assert.equal(run('latestMeetSummary().improved'),0);
+ run('state='+saved);
+}
 let sharedText='';context.navigator={clipboard:{async writeText(text){sharedText=text}}};
 (async()=>{await run('shareResult(state.results[0].id)');assert.ok(sharedText.includes('00:38.42'));assert.ok(sharedText.includes('https://youtu.be/aqz-KE-bpKQ?t=37'));assert.ok(!sharedText.includes('localhost'));let nativeShare;context.navigator.share=async payload=>{nativeShare=payload};await run('shareResult(state.results[0].id)');assert.ok(nativeShare.text.includes('Concurs test'));context.navigator.share=async()=>{const error=new Error('cancel');error.name='AbortError';throw error};await run('shareResult(state.results[0].id)');assert.equal(run('JSON.stringify(state)'),beforeDetails);console.log('Detalii + share OK: fără formular, video la cerere, timestamp, share nativ și copiere.');})().catch(error=>{console.error(error);process.exitCode=1});
 assert.equal(run('chartTime(9000)'), '1:30');
