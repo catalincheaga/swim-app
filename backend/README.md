@@ -16,7 +16,7 @@ POST JSON cu Content-Type text/plain. Acțiuni `create`, `read`, `write`, `recov
 
 Scrierile folosesc revizii și ScriptLock. API-ul respinge o revizie veche; clientul combină schimbările independente, normalizează concursurile create simultan și cere o alegere pentru câmpuri modificate divergent. Modificările locale rămân marcate nesalvate până la confirmarea serverului. Reîncercările de înregistrare reutilizează UUID-ul și codul generate înaintea primei cereri.
 
-La pornire, revenire online și revenire în pagină se încearcă actualizarea. Dispozitivele active verifică actualizări la 30 de secunde. Refresh-ul nu înlocuiește formulare în curs de completare. Rutele de tip `/swim-app/inotatori/nume_1` folosesc pagina 404 GitHub Pages pentru încărcarea aplicației; slugul este stabil și nu oferă acces fără UUID.
+La pornire, revenire online și revenire în pagină se încearcă actualizarea. Dispozitivele active verifică actualizări la 30 de secunde. Refresh-ul nu înlocuiește formulare în curs de completare. Rutele de tip `/swim-app/inotatori/nume_1` folosesc pagina 404 GitHub Pages pentru încărcarea aplicației; slugul este stabil și nu oferă acces fără UUID. La înregistrare folosim prenume_nume, cu sufix pentru nume identice. Adresele inițiale sunt păstrate ca aliasuri. Serverul validează apartenența URL-ului la UUID înainte să returneze datele.
 
 ## Limite
 
