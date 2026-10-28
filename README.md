@@ -4,7 +4,7 @@ Aplicație pentru telefon și desktop, cu profil separat pentru fiecare înotăt
 
 ## Versiunea cu UUID
 
-Această versiune este în pregătire pentru activare. Frontend-ul rămâne pe GitHub Pages; stocarea centrală este în fișiere JSON private în Drive, prin API-ul Apps Script. Nu există configurare Google Sheets în interfață. Instalarea backend-ului și verificarea migrării sunt descrise în [backend/README.md](backend/README.md).
+Versiunea cu UUID este activă. Frontend-ul rămâne pe GitHub Pages; stocarea centrală este în fișiere JSON private în Drive, prin API-ul Apps Script. Nu există configurare Google Sheets în interfață. Instalarea backend-ului și verificarea migrării sunt descrise în [backend/README.md](backend/README.md).
 
 La înregistrare primești un UUID pentru acces și un cod separat pentru recuperare. Salvează codurile: UUID-ul permite citirea și modificarea jurnalului. Pe un dispozitiv nou introduci UUID-ul o singură dată. Recuperarea cere numele și codul de recuperare, emite un UUID nou și îl revocă pe cel anterior.
 
@@ -23,4 +23,4 @@ Setările conțin profilul înotătorului, cluburile, perioadele, culorile și b
 - `node test-journals.cjs` — API JSON: autorizare, izolare, recuperare și conflicte.
 - `node test-cloud.cjs` — client: înregistrare, al doilea dispozitiv, salvare și combinarea adăugărilor simultane.
 
-Testele API folosesc stocare simulată; verificarea reală trebuie făcută după autorizarea Drive și publicarea backend-ului. Serviciul este destinat unui grup mic de familii și rămâne supus [cotelor Apps Script](https://developers.google.com/apps-script/guides/services/quotas).
+Testele automate API folosesc stocare simulată. Instalarea curentă a fost verificată și cu stocarea reală: migrarea a 35 rezultate, conectarea dintr-un browser gol, salvare automată și preluarea modificării pe al doilea dispozitiv. Serviciul este destinat unui grup mic de familii și rămâne supus [cotelor Apps Script](https://developers.google.com/apps-script/guides/services/quotas).
