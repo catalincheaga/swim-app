@@ -1,0 +1,5 @@
+'use strict';
+const $=s=>document.querySelector(s);
+$('#copy-script').onclick=async()=>{try{const response=await fetch('GoogleAppsScript.gs');if(!response.ok)throw Error();const source=await response.text();await navigator.clipboard.writeText(source);$('#script-status').textContent='Script copiat. Lipește-l în Code.gs și salvează.'}catch{$('#script-status').textContent='Copierea nu este disponibilă. Folosește Descarcă scriptul.'}};
+$('#generate-key').onclick=()=>{const bytes=crypto.getRandomValues(new Uint8Array(32));$('#generated-key').value=[...bytes].map(x=>x.toString(16).padStart(2,'0')).join('');$('#key-status').textContent='Cheie generată local. Copiaz-o în Script properties → LANE_TOKEN.'};
+$('#copy-key').onclick=async()=>{if(!$('#generated-key').value){$('#key-status').textContent='Generează mai întâi o cheie.';return}try{await navigator.clipboard.writeText($('#generated-key').value);$('#key-status').textContent='Cheie copiată.'}catch{$('#generated-key').type='text';$('#generated-key').select();$('#key-status').textContent='Selectează și copiază cheia manual.'}};
