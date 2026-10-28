@@ -4,6 +4,10 @@ const context=vm.createContext({console,crypto:require('node:crypto').webcrypto,
 vm.runInContext(fs.readFileSync(__dirname+'/data-model.js','utf8'),context);
 vm.runInContext(fs.readFileSync(__dirname+'/app.js','utf8'),context);
 const run=s=>vm.runInContext(s,context);
+assert.equal(run('state.results.length'),0);
+assert.equal(run('state.demo'),false);
+vm.runInContext("function demo(){const races=[['2024-02-14','Cupa de Iarn\u0103','Bra\u0219ov',50,'Liber',25,4286,6],['2024-03-21','Cupa Prim\u0103verii','Pite\u0219ti',50,'Liber',25,4132,5],['2024-05-09','Memorialul Micilor Campioni','Bra\u0219ov',50,'Liber',25,4021,4],['2026-06-13','Cupa de Var\u0103','Bucure\u0219ti',50,'Liber',25,3956,3],['2026-09-19','Cupa de Toamn\u0103','Bra\u0219ov',50,'Liber',25,3891,2],['2026-10-24','Cupa Aqua Junior','Otopeni',50,'Liber',25,3742,2],['2026-10-24','Cupa Aqua Junior','Otopeni',100,'Liber',25,8245,3],['2026-09-19','Cupa de Toamn\u0103','Bra\u0219ov',100,'Liber',25,8562,4],['2026-10-24','Cupa Aqua Junior','Otopeni',50,'Spate',25,4538,1],['2026-06-13','Cupa de Var\u0103','Bucure\u0219ti',50,'Spate',25,4782,3],['2026-10-24','Cupa Aqua Junior','Otopeni',50,'Bras',25,5126,4],['2024-05-09','Memorialul Micilor Campioni','Bra\u0219ov',50,'Bras',25,5451,6]];return {version:1,demo:true,name:'Alex',transferDate:DEFAULT_TRANSFER,results:races.map(([date,meet,city,distance,stroke,pool,time,place])=>({id:uid(),date,meet,city,distance,stroke,pool,time,place,notes:''}))}}",context);
+run('state=LaneModel.normalize(demo())');
 assert.equal(run("parseTime('1:02.35')"),6235);
 assert.equal(run("parseTime('38,4')"),3840);
 assert.equal(run("fmt(6235)"),'01:02.35');
