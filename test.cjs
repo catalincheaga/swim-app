@@ -81,5 +81,17 @@ assert.ok(!run('row(state.results[0])').includes('data-edit='));
 assert.equal(run('videoEmbed(state.results[0].youtube)'),'https://www.youtube-nocookie.com/embed/aqz-KE-bpKQ?rel=0&start=37');
 assert.equal(run("videoEmbed('https://www.youtube.com/watch?v=aqz-KE-bpKQ&t=1m12s')"),'https://www.youtube-nocookie.com/embed/aqz-KE-bpKQ?rel=0&start=72');
 assert.equal(run("videoEmbed('javascript:alert(1)')"),'');
+const beforeHistorical=run('JSON.stringify(state)'),beforeSelected=run('selected');
+// A faster disqualified swim remains visible but cannot set a record or enter a progress curve.
+run(`state=LaneModel.normalize({version:2,name:'Test',results:[
+{id:'valid',meet:'Test',date:'2024-01-01',distance:50,stroke:'Liber',pool:50,time:5000,place:2},
+{id:'dq',meet:'Test',date:'2024-01-01',distance:50,stroke:'Liber',pool:50,time:4000,place:'Descalificat'}]});selected='50|Liber|50'`);
+assert.equal(run('bests()[0].id'),'valid');
+assert.equal(run('isPB(state.results[1])'),false);
+assert.ok(!run('chart()').includes('00:40.00'));
+assert.ok(run('row(state.results[1])').includes('Descalificat'));
+assert.ok(!run('row(state.results[1])').includes('Locul Descalificat'));
+console.log('Descalificări OK: vizibile în rezultate, excluse din recorduri și evoluție.');
+run('state='+beforeHistorical);run('selected='+JSON.stringify(beforeSelected));
 let sharedText='';context.navigator={clipboard:{async writeText(text){sharedText=text}}};
 (async()=>{await run('shareResult(state.results[0].id)');assert.ok(sharedText.includes('00:38.42'));assert.ok(sharedText.includes('https://youtu.be/aqz-KE-bpKQ?t=37'));assert.ok(!sharedText.includes('localhost'));let nativeShare;context.navigator.share=async payload=>{nativeShare=payload};await run('shareResult(state.results[0].id)');assert.ok(nativeShare.text.includes('Concurs test'));context.navigator.share=async()=>{const error=new Error('cancel');error.name='AbortError';throw error};await run('shareResult(state.results[0].id)');assert.equal(run('JSON.stringify(state)'),beforeDetails);console.log('Detalii + share OK: fără formular, video la cerere, timestamp, share nativ și copiere.');})().catch(error=>{console.error(error);process.exitCode=1});
