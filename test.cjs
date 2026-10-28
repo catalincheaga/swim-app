@@ -141,8 +141,8 @@ console.log('Comparații OK: concurs anterior după dată, bazin separat, DQ, ac
  const saved=run('JSON.stringify(state)'),choice=run('selected'),pool=run('recordPool');
  run("state=LaneModel.normalize({...LaneModel.empty(),results:[{id:'axis-first',meet:'First',date:'2023-10-14',distance:50,stroke:'Liber',pool:50,time:6002},{id:'axis-last',meet:'Last',date:'2025-10-25',distance:50,stroke:'Liber',pool:50,time:3513},{id:'short-pool',meet:'Short',date:'2024-10-26',distance:50,stroke:'Liber',pool:25,time:4079}]});selected='50|Liber|50';recordPool=50");
  const graph=run('chart()');
- assert.ok(graph.includes('>1:00,02</text>'));
- assert.ok(graph.includes('>00:35,13</text>'));
+ assert.ok(graph.includes('>1m 00s</text>'));
+ assert.ok(graph.includes('>35s</text>'));
  assert.ok(!graph.includes('07.5 sec'));
  assert.ok(run('personalRecords()').includes('00:35.13'));
  assert.ok(!run('personalRecords()').includes('00:40.79'));
@@ -154,10 +154,10 @@ console.log('Comparații OK: concurs anterior după dată, bazin separat, DQ, ac
 }
 let sharedText='';context.navigator={clipboard:{async writeText(text){sharedText=text}}};
 (async()=>{await run('shareResult(state.results[0].id)');assert.ok(sharedText.includes('00:38.42'));assert.ok(sharedText.includes('https://youtu.be/aqz-KE-bpKQ?t=37'));assert.ok(!sharedText.includes('localhost'));let nativeShare;context.navigator.share=async payload=>{nativeShare=payload};await run('shareResult(state.results[0].id)');assert.ok(nativeShare.text.includes('Concurs test'));context.navigator.share=async()=>{const error=new Error('cancel');error.name='AbortError';throw error};await run('shareResult(state.results[0].id)');assert.equal(run('JSON.stringify(state)'),beforeDetails);console.log('Detalii + share OK: fără formular, video la cerere, timestamp, share nativ și copiere.');})().catch(error=>{console.error(error);process.exitCode=1});
-assert.equal(run('chartTime(9000)'), '1:30,00');
-assert.equal(run('chartTime(6200)'), '1:02,00');
-assert.equal(run('chartTime(6000)'), '1:00,00');
-assert.equal(run('chartTime(5999,2)'), '00:59,99');
-assert.equal(run('chartTime(6207,2)'), '1:02,07');
-assert.equal(run('chartTime(180000,2)'), '30:00,00');
+assert.equal(run('chartTime(9000)'), '1m 30s');
+assert.equal(run('chartTime(6200)'), '1m 02s');
+assert.equal(run('chartTime(6000)'), '1m 00s');
+assert.equal(run('chartTime(5999,2)'), '1m 00s');
+assert.equal(run('chartTime(6207,2)'), '1m 02s');
+assert.equal(run('chartTime(180000,2)'), '30m 00s');
 console.log('Chart labels OK: minutes, padded seconds, exact-minute boundaries and hundredths.');
