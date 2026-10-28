@@ -68,3 +68,4 @@ $('#close-meet').onclick=()=>$('#meet-editor').close();
 $('#delete-result').onclick=()=>{if(!confirm('Ștergi această cursă?'))return;state.results=state.results.filter(r=>r.id!==$('#result-form').elements.id.value);persist();$('#editor').close();render();toast('Cursa a fost ștearsă.')};$('.close').onclick=()=>$('#editor').close();$('#add-fab').onclick=()=>editor();$('#start-clean').onclick=reset;$('#profile-button').onclick=()=>go('settings');document.querySelectorAll('[data-tab]').forEach(b=>b.onclick=()=>go(b.dataset.tab));persist();render();
 
 connectDevice();
+if(typeof window!=='undefined')window.addEventListener('hashchange',connectDevice);
