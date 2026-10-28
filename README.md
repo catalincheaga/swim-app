@@ -6,7 +6,7 @@ Aplicație statică pentru telefon și desktop. Interfață în română, inspir
 
 Din acest dosar: `python3 -m http.server 8765 --bind 127.0.0.1`, apoi http://127.0.0.1:8765. Previzualizarea în ramă de telefon este la `/mobile-preview.html`.
 
-Datele locale depind de browser, adresă și port. Folosește JSON pentru backup și migrare între dispozitive sau adrese. Datele demonstrative sunt fictive și marcate; elimină-le înainte să începi jurnalul real.
+Datele locale depind de browser, adresă și port. Folosește JSON pentru backup și migrare între dispozitive sau adrese. Jurnalele noi sunt goale. Pentru alt dispozitiv, din Setări pe dispozitivul conectat apasă „Copiază linkul pentru telefon”, apoi deschide linkul privat pe noul dispozitiv. Linkul conține accesul la jurnal în fragment, eliminat imediat din adresă; nu îl publica. La conectare se descarcă jurnalul din Google Sheet. Sincronizarea ulterioară rămâne manuală.
 
 ## Ce include
 
