@@ -37,7 +37,7 @@ book.sheets={};const legacy=book.insertSheet('_LANE');legacy.rows=[['Legacy'],[J
 ctx.links=[video,'https://www.youtube.com/watch?v=aqz-KE-bpKQ&t=37s','https://www.youtube.com/shorts/aqz-KE-bpKQ'];assert.equal(exec('links.every(s=>LaneModel.youtube(s)===s)'),true);
 console.log('Schema + API OK: migrations, meets, YouTube, sheet edits, conflicts, rollback and access key.');
 // Historical classifications and special events survive a full Sheets round trip.
-for(const [stroke,place] of [['Liber','Descalificat'],['Spate','24 / 58'],['Cu placa',''],['Ștafetă liber',7]]){
+for(const [stroke,place] of [['Liber','Descalificat'],['Spate','24 / 58'],['Cu placa',''],['Ștafetă liber',7],['Ștafetă mixt',4]]){
   const historical=M.normalize({...original,results:[{...original.results[0],stroke,place}]});
   assert.deepEqual(M.fromTables(M.tables(historical)),historical);
 }
