@@ -135,6 +135,23 @@ assert.equal(run("comparisonText({delta:0})"),'Același timp');
 assert.equal(run("comparisonText({delta:-141})"),'−1.41 sec mai rapid');
 run('state='+beforeComparison);
 console.log('Comparații OK: concurs anterior după dată, bazin separat, DQ, aceeași zi, același concurs și diferență semnată.');
+
+// Chart endpoints reflect actual race times, without invented padding; records never mix pools.
+{
+ const saved=run('JSON.stringify(state)'),choice=run('selected'),pool=run('recordPool');
+ run("state=LaneModel.normalize({...LaneModel.empty(),results:[{id:'axis-first',meet:'First',date:'2023-10-14',distance:50,stroke:'Liber',pool:50,time:6002},{id:'axis-last',meet:'Last',date:'2025-10-25',distance:50,stroke:'Liber',pool:50,time:3513},{id:'short-pool',meet:'Short',date:'2024-10-26',distance:50,stroke:'Liber',pool:25,time:4079}]});selected='50|Liber|50';recordPool=50");
+ const graph=run('chart()');
+ assert.ok(graph.includes('>1 min: 00.02 sec</text>'));
+ assert.ok(graph.includes('>35.13 sec</text>'));
+ assert.ok(!graph.includes('07.5 sec'));
+ assert.ok(run('personalRecords()').includes('00:35.13'));
+ assert.ok(!run('personalRecords()').includes('00:40.79'));
+ run('recordPool=25');
+ assert.ok(run('personalRecords()').includes('00:40.79'));
+ assert.ok(!run('personalRecords()').includes('00:35.13'));
+ assert.ok(!run('personalRecords()').includes('<span>↗</span>'));
+ run('state='+saved);run('selected='+JSON.stringify(choice));run('recordPool='+pool);
+}
 let sharedText='';context.navigator={clipboard:{async writeText(text){sharedText=text}}};
 (async()=>{await run('shareResult(state.results[0].id)');assert.ok(sharedText.includes('00:38.42'));assert.ok(sharedText.includes('https://youtu.be/aqz-KE-bpKQ?t=37'));assert.ok(!sharedText.includes('localhost'));let nativeShare;context.navigator.share=async payload=>{nativeShare=payload};await run('shareResult(state.results[0].id)');assert.ok(nativeShare.text.includes('Concurs test'));context.navigator.share=async()=>{const error=new Error('cancel');error.name='AbortError';throw error};await run('shareResult(state.results[0].id)');assert.equal(run('JSON.stringify(state)'),beforeDetails);console.log('Detalii + share OK: fără formular, video la cerere, timestamp, share nativ și copiere.');})().catch(error=>{console.error(error);process.exitCode=1});
 assert.equal(run('chartTime(9000)'), '1 min: 30 sec');
