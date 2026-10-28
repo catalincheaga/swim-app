@@ -57,6 +57,22 @@ const submit=(selector,inputs)=>nodes.get(selector).onsubmit({preventDefault(){}
 submit('#meet-form',{name:'Concurs test',date:'2026-10-28',city:'București',pool:'50'});
 assert.equal(run('state.meets.length'),1);assert.equal(run('state.results.length'),0);
 const meetId=run('state.meets[0].id');
+// The saved meet supplies its location/date/pool, hiding new-meet fields.
+run("testMeetForm={elements:Object.fromEntries(['meet','city','date','pool'].map(k=>[k,{value:''}]))};populateMeetFields(testMeetForm,state.meets[0].id)");
+assert.equal(run('testMeetForm.elements.city.value'),'București');
+assert.equal(run('testMeetForm.elements.pool.value'),50);
+assert.equal(run('testMeetForm.elements.date.value'),'2026-10-28');
+assert.equal(nodes.get('#new-meet-city').style.display,'none');
+assert.equal(nodes.get('#new-meet-name').style.display,'none');
+assert.ok(nodes.get('#meet-choice-hint').textContent.includes('București'));
+run("populateMeetFields(testMeetForm,'')");
+assert.equal(nodes.get('#new-meet-city').style.display,'');
+assert.equal(run('testMeetForm.elements.city.readOnly'),false);
+run("state.meets[0].city='';populateMeetFields(testMeetForm,state.meets[0].id)");
+assert.equal(nodes.get('#new-meet-city').style.display,'none');
+assert.ok(nodes.get('#meet-choice-hint').textContent.includes('nespecificată'));
+run("state.meets[0].city='București'");
+
 submit('#result-form',{existingMeet:meetId,date:'2026-10-28',stroke:'Liber',distance:'50',pool:'50',time:'00:38.42',youtube:'https://youtu.be/aqz-KE-bpKQ?t=37'});
 assert.equal(run('state.results.length'),1);assert.equal(run('state.results[0].meetId'),meetId);assert.equal(run('state.results[0].city'),'București');assert.equal(run('state.meets.length'),1);
 submit('#result-form',{existingMeet:meetId,date:'2026-10-28',stroke:'Spate',distance:'50',pool:'50',time:'00:45.10'});
