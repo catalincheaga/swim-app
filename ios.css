@@ -23,3 +23,6 @@ html{background:#f2f2f7;scroll-behavior:smooth}body{font-family:var(--system);ba
 
 .chart-summary{flex-wrap:wrap}.chart-summary strong{white-space:nowrap}.chart text{font-size:12px}
 @media(max-width:600px){.chart-summary strong{font-size:clamp(24px,7vw,30px);flex-basis:100%}.chart-summary{row-gap:8px}}
+
+.race-trend{display:block;font-size:10px;font-weight:500;letter-spacing:0;line-height:1.5;margin-top:4px;white-space:normal}.faster{color:#238269}.slower{color:#ad6044}.equal{color:#787982}.race-comparison{background:#f1f2f5;border:1px solid #fff;border-radius:20px;padding:18px 20px;margin:18px 0}.race-comparison strong{display:block;font-size:21px;margin:10px 0 7px;letter-spacing:-.5px}.race-comparison p{font-size:12px;color:#777982;line-height:1.6}.race-comparison .eyebrow{font-size:9px}.result-time .race-trend{max-width:180px;margin-left:auto}
+@media(max-width:600px){.race-trend{font-size:9px}.result-time .race-trend{max-width:128px}.race-comparison{padding:17px}.race-comparison strong{font-size:20px}}

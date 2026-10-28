@@ -97,6 +97,28 @@ assert.ok(run('row(state.results[1])').includes('Descalificat'));
 assert.ok(!run('row(state.results[1])').includes('Locul Descalificat'));
 console.log('Descalificări OK: vizibile în rezultate, excluse din recorduri și evoluție.');
 run('state='+beforeHistorical);run('selected='+JSON.stringify(beforeSelected));
+// Previous-competition comparison uses chronology and the exact event/pool, not PB.
+const beforeComparison=run('JSON.stringify(state)');
+run(`state=LaneModel.normalize({version:2,name:'Test',meets:[{id:'current-meet',name:'Concurs pe două zile',date:'2025-03-31',city:'',pool:50}],results:[
+{id:'best-ever',date:'2024-12-01',meet:'Decembrie',stroke:'Liber',distance:50,pool:50,time:3500,place:1},
+{id:'january',date:'2025-01-01',meet:'Ianuarie',stroke:'Liber',distance:50,pool:50,time:4000,place:2},
+{id:'short-pool',date:'2025-02-01',meet:'Februarie scurt',stroke:'Liber',distance:50,pool:25,time:3000,place:1},
+{id:'dq',date:'2025-02-02',meet:'Februarie',stroke:'Liber',distance:50,pool:50,time:2900,place:'Descalificat'},
+{id:'march',date:'2025-03-01',meet:'Martie',stroke:'Liber',distance:50,pool:50,time:3800,place:1},
+{id:'same-meet',meetId:'current-meet',date:'2025-03-31',stroke:'Liber',distance:50,pool:50,time:2000,place:1},
+{id:'same-day',date:'2025-04-01',meet:'Alt concurs în aceeași zi',stroke:'Liber',distance:50,pool:50,time:1000,place:1},
+{id:'current',meetId:'current-meet',date:'2025-04-01',stroke:'Liber',distance:50,pool:50,time:3900,place:1},
+{id:'future',date:'2025-05-01',meet:'Mai',stroke:'Liber',distance:50,pool:50,time:1000,place:1}]})`);
+assert.equal(run("raceComparison(state.results.find(r=>r.id==='current')).previous.id"),'march');
+assert.equal(run("raceComparison(state.results.find(r=>r.id==='current')).delta"),100);
+assert.equal(run("comparisonText(raceComparison(state.results.find(r=>r.id==='current')))"),'+1 sec mai lent');
+assert.equal(run("raceComparison(state.results.find(r=>r.id==='best-ever'))"),null);
+assert.equal(run("raceComparison(state.results.find(r=>r.id==='dq'))"),null);
+assert.equal(run("raceComparison({...state.results.find(r=>r.id==='current'),date:'2025-02-15'}).previous.id"),'january');
+assert.equal(run("comparisonText({delta:0})"),'Același timp');
+assert.equal(run("comparisonText({delta:-141})"),'−1.41 sec mai rapid');
+run('state='+beforeComparison);
+console.log('Comparații OK: concurs anterior după dată, bazin separat, DQ, aceeași zi, același concurs și diferență semnată.');
 let sharedText='';context.navigator={clipboard:{async writeText(text){sharedText=text}}};
 (async()=>{await run('shareResult(state.results[0].id)');assert.ok(sharedText.includes('00:38.42'));assert.ok(sharedText.includes('https://youtu.be/aqz-KE-bpKQ?t=37'));assert.ok(!sharedText.includes('localhost'));let nativeShare;context.navigator.share=async payload=>{nativeShare=payload};await run('shareResult(state.results[0].id)');assert.ok(nativeShare.text.includes('Concurs test'));context.navigator.share=async()=>{const error=new Error('cancel');error.name='AbortError';throw error};await run('shareResult(state.results[0].id)');assert.equal(run('JSON.stringify(state)'),beforeDetails);console.log('Detalii + share OK: fără formular, video la cerere, timestamp, share nativ și copiere.');})().catch(error=>{console.error(error);process.exitCode=1});
 assert.equal(run('chartTime(9000)'), '1 min: 30 sec');

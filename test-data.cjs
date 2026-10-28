@@ -43,3 +43,10 @@ for(const [stroke,place] of [['Liber','Descalificat'],['Spate','24 / 58'],['Cu p
 }
 assert.throws(()=>M.normalize({...original,results:[{...original.results[0],place:'<img onerror=1>'}]}));
 console.log('Istoric OK: descalificări, clasare / participanți, placă, ștafetă și validare.');
+
+assert.equal(M.cleanImportedNotes('Diferență în tabelul furnizat: ⬇️ 1.41'),'');
+assert.equal(M.cleanImportedNotes('Diferență în tabelul furnizat: ⬆️ +2.39'),'');
+assert.equal(M.cleanImportedNotes('Diferență din tabelul original: -005'),'');
+assert.equal(M.cleanImportedNotes('Start bun.\nDiferență în tabelul furnizat: ⬇️ 1.41\nRespirație la 3 brațe.'),'Start bun.\nRespirație la 3 brațe.');
+assert.equal(M.cleanImportedNotes('Diferență mare la start, de exersat.'),'Diferență mare la start, de exersat.');
+console.log('Curățare notițe OK: eliminate doar liniile generate la import; notițele personale sunt păstrate.');
