@@ -10,7 +10,7 @@ vm.runInContext("function demo(){const races=[['2024-02-14','Cupa de Iarn\u0103'
 run('state=LaneModel.normalize(demo())');
 assert.equal(run("parseTime('1:02.35')"),6235);
 assert.equal(run("parseTime('38,4')"),3840);
-assert.equal(run("fmt(6235)"),'01:02.35');
+assert.equal(run("fmt(6235)"),'01:02,35');
 assert.ok(Number.isNaN(run("parseTime('1:75.00')")));
 assert.equal(run('state.results.length'),12);
 assert.equal(run('bests().length'),4);
@@ -132,7 +132,7 @@ assert.equal(run("raceComparison(state.results.find(r=>r.id==='best-ever'))"),nu
 assert.equal(run("raceComparison(state.results.find(r=>r.id==='dq'))"),null);
 assert.equal(run("raceComparison({...state.results.find(r=>r.id==='current'),date:'2025-02-15'}).previous.id"),'january');
 assert.equal(run("comparisonText({delta:0})"),'Același timp');
-assert.equal(run("comparisonText({delta:-141})"),'−1.41 sec mai rapid');
+assert.equal(run("comparisonText({delta:-141})"),'−1,41 sec mai rapid');
 run('state='+beforeComparison);
 console.log('Comparații OK: concurs anterior după dată, bazin separat, DQ, aceeași zi, același concurs și diferență semnată.');
 
@@ -144,11 +144,11 @@ console.log('Comparații OK: concurs anterior după dată, bazin separat, DQ, ac
  assert.ok(graph.includes('>1:00</text>'));
  assert.ok(graph.includes('>0:35</text>'));
  assert.ok(!graph.includes('07.5 sec'));
- assert.ok(run('personalRecords()').includes('00:35.13'));
- assert.ok(!run('personalRecords()').includes('00:40.79'));
+ assert.ok(run('personalRecords()').includes('00:35,13'));
+ assert.ok(!run('personalRecords()').includes('00:40,79'));
  run('recordPool=25');
- assert.ok(run('personalRecords()').includes('00:40.79'));
- assert.ok(!run('personalRecords()').includes('00:35.13'));
+ assert.ok(run('personalRecords()').includes('00:40,79'));
+ assert.ok(!run('personalRecords()').includes('00:35,13'));
  assert.ok(!run('personalRecords()').includes('<span>↗</span>'));
  run('state='+saved);run('selected='+JSON.stringify(choice));run('recordPool='+pool);
 }
@@ -176,11 +176,11 @@ console.log('Comparații OK: concurs anterior după dată, bazin separat, DQ, ac
  run('state='+saved);
 }
 let sharedText='';context.navigator={clipboard:{async writeText(text){sharedText=text}}};
-(async()=>{await run('shareResult(state.results[0].id)');assert.ok(sharedText.includes('00:38.42'));assert.ok(sharedText.includes('https://youtu.be/aqz-KE-bpKQ?t=37'));assert.ok(!sharedText.includes('localhost'));let nativeShare;context.navigator.share=async payload=>{nativeShare=payload};await run('shareResult(state.results[0].id)');assert.ok(nativeShare.text.includes('Concurs test'));context.navigator.share=async()=>{const error=new Error('cancel');error.name='AbortError';throw error};await run('shareResult(state.results[0].id)');assert.equal(run('JSON.stringify(state)'),beforeDetails);console.log('Detalii + share OK: fără formular, video la cerere, timestamp, share nativ și copiere.');})().catch(error=>{console.error(error);process.exitCode=1});
+(async()=>{await run('shareResult(state.results[0].id)');assert.ok(sharedText.includes('00:38,42'));assert.ok(sharedText.includes('https://youtu.be/aqz-KE-bpKQ?t=37'));assert.ok(!sharedText.includes('localhost'));let nativeShare;context.navigator.share=async payload=>{nativeShare=payload};await run('shareResult(state.results[0].id)');assert.ok(nativeShare.text.includes('Concurs test'));context.navigator.share=async()=>{const error=new Error('cancel');error.name='AbortError';throw error};await run('shareResult(state.results[0].id)');assert.equal(run('JSON.stringify(state)'),beforeDetails);console.log('Detalii + share OK: fără formular, video la cerere, timestamp, share nativ și copiere.');})().catch(error=>{console.error(error);process.exitCode=1});
 assert.equal(run('chartTime(9000)'), '1:30');
 assert.equal(run('chartTime(6200)'), '1:02');
 assert.equal(run('chartTime(6000)'), '1:00');
-assert.equal(run('chartTime(5999,true)'), '0:59,99');
-assert.equal(run('chartTime(6207,true)'), '1:02,07');
+assert.equal(run('chartTime(5999,true)'), '00:59,99');
+assert.equal(run('chartTime(6207,true)'), '01:02,07');
 assert.equal(run('chartTime(180000,true)'), '30:00,00');
 console.log('Chart labels OK: minutes, padded seconds, exact-minute boundaries and hundredths.');
