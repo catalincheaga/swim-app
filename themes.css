@@ -1,0 +1,85 @@
+/* Appearance is a device preference; race data and club identity stay shared. */
+:root{--system:-apple-system,BlinkMacSystemFont,"Helvetica Neue",Arial,sans-serif}
+.nav-create{display:none}
+.appearance-preview{display:flex;align-items:center;gap:13px;padding:16px;border:1px solid var(--line);border-radius:18px;margin:0 0 20px;background:linear-gradient(120deg,#ffffff12,transparent)}
+.appearance-swatches{display:flex;gap:5px}.appearance-swatches i{width:17px;height:30px;border-radius:7px;background:#f2f2f7;border:1px solid #8884}.appearance-swatches i:nth-child(2){background:#000}.appearance-swatches i:nth-child(3){background:#78f5d0}
+.settings .appearance-preview p{margin:0;font-size:12px}
+html[data-theme="obsidian"]{--ink:#f5f5f7;--muted:#a1a1ab;--paper:#000;--line:#ffffff17;--atack:#ff6b59;--euro:#e8c94b;--glass-accent:#86f9db;background:#000;color-scheme:dark}
+[data-theme="obsidian"] body{background:#000;color:#f5f5f7;letter-spacing:-.015em}
+[data-theme="obsidian"] aside{background:#0b0b0d;border-color:#ffffff12}
+[data-theme="obsidian"] .brand{color:#fff}
+[data-theme="obsidian"] nav button{color:#9898a2}
+[data-theme="obsidian"] nav button.active{background:#ffffff0c;color:#a1ffe7;box-shadow:inset 2px 0 #86f9db}
+[data-theme="obsidian"] .aside-copy,[data-theme="obsidian"] .aside-bottom{color:#94949e}
+[data-theme="obsidian"] .card,[data-theme="obsidian"] .stat,[data-theme="obsidian"] .result-item,[data-theme="obsidian"] .result-row{background:#111113;border-color:#ffffff13;box-shadow:0 8px 30px #0005}
+[data-theme="obsidian"] .hero{background:radial-gradient(ellipse at 100% 0,#17362e55,transparent 70%),#101113;border-color:#ffffff20;color:#fff;box-shadow:inset 0 1px #ffffff08}
+[data-theme="obsidian"] .hero:after{border-color:#86f9db0e;background:transparent;box-shadow:0 0 0 20px #86f9db03,0 0 0 21px #86f9db0b,0 0 0 44px #86f9db02,0 0 0 45px #86f9db08}
+[data-theme="obsidian"] .hero-number{color:#9affdf}
+[data-theme="obsidian"] .hero p,[data-theme="obsidian"] .hero .eyebrow,[data-theme="obsidian"] .hero-stat .tag,[data-theme="obsidian"] .hero-stat .tag:first-line{color:#b0b3b7}
+[data-theme="obsidian"] .hero .tag{background:#ffffff08;color:#b4b8bc}
+[data-theme="obsidian"] h1,[data-theme="obsidian"] h2,[data-theme="obsidian"] h3,[data-theme="obsidian"] .record-title,[data-theme="obsidian"] .result-description strong,[data-theme="obsidian"] .result-time,[data-theme="obsidian"] .record-time{color:#f5f5f7}
+[data-theme="obsidian"] .subtitle,[data-theme="obsidian"] p.subtitle,[data-theme="obsidian"] .stat-label,[data-theme="obsidian"] .stat-foot,[data-theme="obsidian"] .record small,[data-theme="obsidian"] .result-description small,[data-theme="obsidian"] .chapter small,[data-theme="obsidian"] .chart-detail,[data-theme="obsidian"] .settings p,[data-theme="obsidian"] footer{color:#a1a1ab}
+[data-theme="obsidian"] .chapter{color:#f5f5f7;box-shadow:inset 0 1px #ffffff0a}
+[data-theme="obsidian"] .chapter-kicker,[data-theme="obsidian"] .team-badge,[data-theme="obsidian"] .club-wordmark{filter:brightness(1.3) saturate(.9)}
+[data-theme="obsidian"] .date-tile{background:#ffffff0c!important;color:#fff!important}
+[data-theme="obsidian"] .date-tile small{color:#aaaab3}
+[data-theme="obsidian"] .primary{background:#9bf5db;color:#06241b;box-shadow:none}
+[data-theme="obsidian"] .secondary,[data-theme="obsidian"] .chart-select,[data-theme="obsidian"] .filters input,[data-theme="obsidian"] .filters select{background:#212124;color:#f5f5f7;border-color:#ffffff1a}
+[data-theme="obsidian"] .text-button,[data-theme="obsidian"] .section-heading button{color:#a3f6de!important}
+[data-theme="obsidian"] .header-team{background:#ffffff09}
+[data-theme="obsidian"] .avatar{background:#202524;color:#b0ffe8;border-color:#ffffff20;box-shadow:inset 0 1px #ffffff17}
+[data-theme="obsidian"] .improvement,[data-theme="obsidian"] .pb-badge{background:#8affcf12;color:#9af4cb}
+[data-theme="obsidian"] .faster{color:#82e8b9}[data-theme="obsidian"] .slower{color:#ffac8c}[data-theme="obsidian"] .equal{color:#b2b2bd}
+[data-theme="obsidian"] .record-pool-tabs{background:#09090b;border:1px solid #ffffff0b}
+[data-theme="obsidian"] .record-pool-tabs button{color:#93939e}
+[data-theme="obsidian"] .record-pool-tabs button[aria-selected="true"]{background:#303034;color:#fff;box-shadow:0 2px 6px #0008,inset 0 1px #ffffff13}
+[data-theme="obsidian"] .chart text{fill:#9999a6}
+[data-theme="obsidian"] .chart line[stroke="#edf0eb"]{stroke:#ffffff15}
+[data-theme="obsidian"] .chart polyline{stroke:#ffffff25}
+[data-theme="obsidian"] .chart line:not([stroke="#edf0eb"]),[data-theme="obsidian"] .chart circle{filter:brightness(1.3) saturate(1.2)}
+[data-theme="obsidian"] .chart circle[fill="#fff"]{fill:#111113}
+[data-theme="obsidian"] #area stop{stop-color:#71ecc7}
+[data-theme="obsidian"] .legend i.pb-ring{background:#111113;border-color:#b3efd7;box-shadow:0 0 0 2px #a6f6da22}
+[data-theme="obsidian"] label{color:#b8b8c2}
+[data-theme="obsidian"] label input,[data-theme="obsidian"] label select,[data-theme="obsidian"] label textarea,[data-theme="obsidian"] .identity-receipt input,[data-theme="obsidian"] .identity-receipt textarea{background:#232326;border-color:#ffffff12;color:#fff}
+[data-theme="obsidian"] input::placeholder,[data-theme="obsidian"] textarea::placeholder{color:#868690}
+[data-theme="obsidian"] .club-config,[data-theme="obsidian"] .team-profile{background:#ffffff03;border-color:#ffffff16}
+[data-theme="obsidian"] .club-config legend{color:#e5e5ed}
+[data-theme="obsidian"] dialog{background:#161618f5;border-color:#ffffff21;color:#fff;box-shadow:0 25px 100px #000b}
+[data-theme="obsidian"] dialog::backdrop{background:#0009}
+[data-theme="obsidian"] .close{background:#ffffff14;color:#d4d4dc}
+[data-theme="obsidian"] .danger{background:#ff66551a;color:#ff9f93}
+[data-theme="obsidian"] .race-comparison,[data-theme="obsidian"] .race-detail-notes,[data-theme="obsidian"] .video-missing,[data-theme="obsidian"] .video-preview,[data-theme="obsidian"] .video-stage{background:#ffffff06;border-color:#ffffff12}
+[data-theme="obsidian"] .race-detail-facts dd,[data-theme="obsidian"] .race-detail-notes p,[data-theme="obsidian"] .identity-receipt p,[data-theme="obsidian"] .race-comparison p{color:#c2c2cb}
+[data-theme="obsidian"] .race-video{background:#ffffff06;color:#ffa79b}
+[data-theme="obsidian"] .meet-card{border-top-color:#ffffff17!important}
+[data-theme="obsidian"] .meet-card .result-item,[data-theme="obsidian"] .meet-card .result-row{background:#19191d;border-color:#ffffff0b}
+[data-theme="obsidian"] .meet-add{background:#a1f6de17;color:#a1f6de}
+[data-theme="obsidian"] .access-card{background:#111113;border-color:#ffffff1a;color:#fff}
+[data-theme="obsidian"] .access-card p{color:#a9a9b4}
+[data-theme="obsidian"] #toast{background:#27272beF;color:#fff;border-color:#ffffff20}
+[data-theme="obsidian"] button:focus-visible,[data-theme="obsidian"] a:focus-visible{outline-color:#92ffe1}
+@media(max-width:650px){
+ [data-theme="obsidian"] main{padding-bottom:calc(145px + env(safe-area-inset-bottom))}
+ [data-theme="obsidian"] aside,[data-theme="obsidian"] body:has(#add-fab.hidden) aside{left:16px;right:16px;bottom:calc(17px + env(safe-area-inset-bottom));height:76px;padding:0;background:none;border:0;box-shadow:none;backdrop-filter:none;-webkit-backdrop-filter:none;overflow:visible}
+ [data-theme="obsidian"] nav{position:relative;display:flex;align-items:center;gap:2px;padding:6px 8px;height:76px;border-radius:40px;border:1px solid #ffffff50;background:linear-gradient(175deg,#ffffff20,#ffffff07 44%,#ffffff15);box-shadow:inset 0 1px 1px #ffffff65,inset 0 -1px 2px #ffffff25,0 14px 40px #000b;backdrop-filter:blur(30px) saturate(1.6);-webkit-backdrop-filter:blur(30px) saturate(1.6);isolation:isolate}
+ [data-theme="obsidian"] nav button{position:relative;flex:1;height:60px;min-width:0;border-radius:30px;justify-content:center;color:#a9a9b2;gap:5px;padding:10px 2px;box-shadow:none;background:none}
+ [data-theme="obsidian"] nav button.active{background:linear-gradient(180deg,#9bffe719,transparent);box-shadow:inset 0 1px #9affe3;color:#c0ffed}
+ [data-theme="obsidian"] nav button.active:after{content:'';position:absolute;top:0;left:calc(50% - 12px);width:24px;height:3px;border-radius:0 0 8px 8px;background:#9affe3;box-shadow:0 3px 14px #86f9dbb0}
+ [data-theme="obsidian"] nav button span{font-size:9px;font-weight:500}
+ [data-theme="obsidian"] .nav-icon{width:22px;height:22px;stroke-width:1.7}
+ [data-theme="obsidian"] nav .nav-create{display:flex;flex:0 0 58px;width:58px;height:58px;align-self:center;transform:translateY(-25px);border:1px solid #c0fff099;border-radius:50%;background:radial-gradient(circle at 30% 15%,#84eace55,transparent 70%),#20463f;color:#e1fff6;box-shadow:0 0 0 6px #000,0 0 0 7px #ffffff26,inset 0 2px 4px #c5fff648,0 0 24px #7bf7d323;padding:0}
+ [data-theme="obsidian"] nav .nav-create:active{transform:translateY(-25px) scale(.94)}
+ [data-theme="obsidian"] .nav-create .nav-icon{width:27px;height:27px;stroke-width:1.5}
+ [data-theme="obsidian"] .nav-create span{position:absolute;bottom:-22px;color:#c6f9eb;font-size:9px}
+ [data-theme="obsidian"] #add-fab{display:none!important}
+ [data-theme="obsidian"] .cloud-tools{gap:10px;justify-content:flex-start}
+ [data-theme="obsidian"] .cloud-tools button{font-size:10px}
+ [data-theme="obsidian"] .chart-select{max-width:160px}
+ [data-theme="obsidian"] dialog:before{background:#6f6f79}
+}
+@media(prefers-reduced-transparency:reduce){[data-theme="obsidian"] aside,[data-theme="obsidian"] nav,[data-theme="obsidian"] dialog{background:#202023;backdrop-filter:none;-webkit-backdrop-filter:none}}
+@media(prefers-contrast:more){[data-theme="obsidian"] .subtitle,[data-theme="obsidian"] .stat-label,[data-theme="obsidian"] .stat-foot,[data-theme="obsidian"] .chapter small,[data-theme="obsidian"] .chart-detail,[data-theme="obsidian"] .result-description small{color:#d5d5df!important}}
+[data-theme="obsidian"] .cloud-tools button{background:#ffffff08;border:1px solid #ffffff12;border-radius:16px;padding:7px 9px;min-height:32px;font-weight:500}
+[data-theme="obsidian"] .cloud-tools{gap:7px}
+@media(max-width:360px){[data-theme="obsidian"] .cloud-tools button{font-size:9px;padding:7px}}
