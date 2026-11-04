@@ -83,3 +83,14 @@ html[data-theme="obsidian"]{--ink:#f5f5f7;--muted:#a1a1ab;--paper:#000;--line:#f
 [data-theme="obsidian"] .cloud-tools button{background:#ffffff08;border:1px solid #ffffff12;border-radius:16px;padding:7px 9px;min-height:32px;font-weight:500}
 [data-theme="obsidian"] .cloud-tools{gap:7px}
 @media(max-width:360px){[data-theme="obsidian"] .cloud-tools button{font-size:9px;padding:7px}}
+
+/* Journal access belongs to Settings; meet sharing stays a compact icon. */
+.settings-journal-tools{display:grid;gap:10px}
+.settings .settings-journal-tools button{margin:0;text-align:left;min-height:46px;padding:13px 16px}
+.meet-top{position:relative;padding-right:46px;align-items:flex-start}
+.meet-share{position:absolute;right:-8px;top:-8px;display:flex;align-items:center;justify-content:center;width:44px;height:44px;border-radius:50%;background:transparent;color:#666a73}
+.meet-share:hover{background:#80808010}
+.meet-share svg{width:21px;height:21px;fill:none;stroke:currentColor;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
+.meet-top .meet-add{flex-shrink:0;margin-top:46px}
+[data-theme="obsidian"] .meet-share{color:#b7e9dc}
+[data-theme="obsidian"] .meet-share:hover{background:#a1ffe710}
