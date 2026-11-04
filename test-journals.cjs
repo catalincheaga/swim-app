@@ -17,3 +17,12 @@ assert.ok(request({action:'write',id:routeId,revision:1,data:{...routeData,name:
 const legacyFileId=props.get('J_'+crypto.createHash('sha256').update(routeId).digest('hex')),legacy=JSON.parse(files.get(legacyFileId));legacy.slug='inotator_legacy';delete legacy.routeVersion;files.set(legacyFileId,JSON.stringify(legacy));
 const upgraded=request({action:'read',id:routeId,slug:'inotator_legacy'});assert.equal(upgraded.slug,'ana_maria_popescu');assert.ok(upgraded.aliases.includes('inotator_legacy'));assert.equal(request({action:'read',id:routeId,slug:upgraded.slug}).ok,true);assert.equal(request({action:'read',id:routeId,slug:'another_child'}).ok,false);
 console.log('Routes OK: friendly names, duplicates, legacy aliases and UUID/URL isolation.');
+// Viewer tokens are independent capabilities: fresh data, restricted fields, no writes or recovery.
+const share=request({action:'share_create',id:recovered});assert.ok(share.ok);assert.notEqual(share.token,recovered);
+const view=request({action:'view',token:share.token});assert.ok(view.ok);assert.equal(view.readOnly,true);assert.equal(view.data.name,'Updated');assert.equal(view.data.swimmer.birthDate,'');assert.equal(view.token,undefined);assert.equal(view.viewerToken,undefined);
+for(const action of ['read','write','share_create','share_revoke'])assert.equal(request({action,id:share.token,revision:view.revision,data:view.data}).ok,false);
+assert.equal(request({action:'share_create',id:recovered}).token,share.token);
+assert.ok(request({action:'write',id:recovered,revision:view.revision,data:{...view.data,name:'New result owner'}}).ok);
+assert.equal(request({action:'view',token:share.token}).data.name,'New result owner');
+assert.ok(request({action:'share_revoke',id:recovered}).ok);assert.equal(request({action:'view',token:share.token}).ok,false);assert.notEqual(request({action:'share_create',id:recovered}).token,share.token);
+console.log('Sharing OK: viewer cannot write, owner isolated, live reads, private fields stripped, revocation and rotation.');

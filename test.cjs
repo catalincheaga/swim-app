@@ -184,3 +184,15 @@ assert.equal(run('chartTime(5999,true)'), '00:59,99');
 assert.equal(run('chartTime(6207,true)'), '01:02,07');
 assert.equal(run('chartTime(180000,true)'), '30:00,00');
 console.log('Chart labels OK: minutes, padded seconds, exact-minute boundaries and hundredths.');
+
+// Multi-club settings remain available for a newly registered swimmer.
+assert.ok(run("settings()").includes('id="add-club"'));
+assert.ok(run("clubFields({id:'club_test',name:'A&B',short:'AB',color:'#3478f6',startDate:'',endDate:''})").includes('A&amp;B'));
+const beforeMeetSharing=run('JSON.stringify(state)');
+// Whole-meet sharing preserves event times, pools, placements and videos.
+run(`state=LaneModel.normalize({version:2,name:'Ana Test',clubs:[{id:'blue',name:'Blue',short:'Blue',color:'#123456',startDate:'',endDate:''}],currentClub:'blue',meets:[{id:'meet-share',name:'Cupa Test',date:'2026-10-24',city:'Otopeni',pool:25}],results:[{id:'race-share',meetId:'meet-share',date:'2026-10-24',stroke:'Liber',distance:100,pool:25,time:7486,place:2,youtube:'https://youtu.be/_IAKpDFHDY0'}]})`);
+const meetMessage=run("meetShareText('meet-share')");for(const part of ['Înotător: Ana Test','Nume concurs: Cupa Test','Bazin: 25 m','Proba 1: 100 m liber','Timp: 01:14,86','Loc: 2','https://youtu.be/_IAKpDFHDY0'])assert.ok(meetMessage.includes(part),part);
+run('var LaneViewer={active:true}');assert.equal(run('commit(state)'),false);assert.ok(!run('title("Test","Test")').includes('add-result'));assert.ok(!run('meets()').includes('data-add-to-meet'));assert.ok(run('meets()').includes('data-share-meet'));
+console.log('Meet sharing + viewer UI OK: full message, exact times, no add controls or commits.');
+
+run('state='+beforeMeetSharing+';LaneViewer.active=false');
