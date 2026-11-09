@@ -1,6 +1,6 @@
 'use strict';
 (()=>{
- const current='20261109-obsidian-only';
+ const current='20261109-viewer-years';
  let checking=false;
  const safe=()=>!document.hidden&&!document.querySelector('dialog[open]')&&!document.activeElement?.matches('input,select,textarea')&&typeof LaneCloud!=='undefined'&&LaneCloud.canUpdate();
  async function check(){
