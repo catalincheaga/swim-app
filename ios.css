@@ -30,3 +30,8 @@ html{background:#f2f2f7;scroll-behavior:smooth}body{font-family:var(--system);ba
 .record-pool-tabs{display:flex;gap:4px;padding:4px;margin:18px 0;background:#e9e9ef;border-radius:14px}
 .record-pool-tabs button{flex:1;padding:10px 12px;border-radius:11px;background:transparent;color:#777982;font-weight:600;font-size:13px}
 .record-pool-tabs button[aria-selected="true"]{background:#fff;color:#182330;box-shadow:0 2px 6px #18233012}
+
+/* The race facts panel stays light in every theme. */
+#result-details .race-detail-facts dt { color: #51515e; }
+#result-details .race-detail-facts dd { color: #242430; }
+#result-details .race-detail-facts .team-badge { color: #933c34; }
